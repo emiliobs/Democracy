@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Democracy.Migrations;
+using Democracy.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -18,6 +21,9 @@ namespace Democracy
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Cada que el proyecto corroa el mira si la base de datos obtuvo cambios:
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DemocracyContext,Configuration>());
         }
     }
 }

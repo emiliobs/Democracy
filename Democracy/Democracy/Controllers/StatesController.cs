@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 //
 using Democracy.Models;
+using System.Net;
+using System.Data.Entity;
 
 namespace Democracy.Controllers
 {
+    [Authorize]
     public class StatesController : Controller
     {
         private DemocracyContext db = new DemocracyContext();
@@ -37,6 +40,95 @@ namespace Democracy.Controllers
 
             //Lo redirecciono a la vista Index(o a la que to desee)
             return RedirectToAction("Index");
+        }
+
+         [HttpGet]
+         public ActionResult Edit(int? id)
+         {
+            //si no existe id, me samuestrra un error controlado:
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            }
+
+            var state = db.States.Find(id);
+
+            //si no existe id, me samuestrra un error controlado:
+            if (state == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            //Me retorna a la plantilla edit
+            return View(state);
+         }
+
+        [HttpPost]
+        public ActionResult Edit(State state)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(state);
+                   
+            }      
+            db.Entry(state).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
+
+        [HttpGet]
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var state = db.States.Find(id);
+
+            if (state == null)
+            {
+                return HttpNotFound();
+
+            }
+
+            return View(state);
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var state = db.States.Find(id);
+
+            if (state == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(state);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id, State state)
+        {
+            state = db.States.Find(id);
+            
+            if (state == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.States.Remove(state);
+            db.SaveChanges();
+            return RedirectToAction("Index");         
         }
 
         //Desconectar la BD:

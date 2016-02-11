@@ -12,6 +12,8 @@ namespace Democracy.Models
         //Atributos:
         [Key]
         public int StateId { get; set; }
+        [Required(ErrorMessage = "The field {0} is Required")]
+        [StringLength(50,ErrorMessage = "The field {0} can contain maximun {1} and minimum {2} characteres", MinimumLength =3)]
         public string Description { get; set; }
     }
 }
