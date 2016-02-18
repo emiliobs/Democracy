@@ -76,8 +76,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+                @*@Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })*@
+                @if (!string.IsNullOrEmpty(Model.Photo))
+                {
+                <img src="@Url.Content(Model.Photo)" alt="Image" style="width:300px; height:200px; max-width:200%;height:auto" />
+                }
             </div>
         </div>
 

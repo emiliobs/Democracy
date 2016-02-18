@@ -62,7 +62,11 @@
             @Html.DisplayFor(modelItem => item.Group)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Photo)
+           @if (!string.IsNullOrEmpty(item.Photo))
+           {
+                <img src="@Url.Content(item.Photo)" alt="Image" style="width:100px; height:100px; max-width:100%; height:auto" />
+           }
+            
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |

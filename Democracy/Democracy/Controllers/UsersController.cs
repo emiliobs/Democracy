@@ -11,6 +11,7 @@ using System.IO;
 
 namespace Democracy.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private DemocracyContext db = new DemocracyContext();

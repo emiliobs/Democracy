@@ -42,7 +42,7 @@ namespace Democracy.Models
         public string Group { get; set; }
           
         [DataType(DataType.ImageUrl)]
-        [StringLength(200, ErrorMessage = "The field {0} can contain maximun {1} and  minimun {2} character", MinimumLength = 5)]
+       [StringLength(200, ErrorMessage = "The field {0} can contain maximun {1} and  minimun {2} character", MinimumLength = 5)]
         public string Photo { get; set; }
     }
 
