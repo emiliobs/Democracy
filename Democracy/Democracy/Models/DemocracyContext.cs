@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -12,6 +13,12 @@ namespace Democracy.Models
         //Contructor:
         public DemocracyContext():base("DefaultConnection")
         {
+        }
+
+        //Método ppra evitar el borrado en cascada del modelo de las tablasde la BD:
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
 
         public DbSet<State> States { get; set; }

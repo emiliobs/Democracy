@@ -11,7 +11,8 @@ namespace Democracy.Models
 {
      public class UserView
     {
-        
+        public int UserId { get; set; }
+
         [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage = "The field {0} is required")]
         [Display(Name = "E-mail")]
