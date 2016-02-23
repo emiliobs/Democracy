@@ -1,0 +1,40 @@
+﻿@model Democracy.Models.AddMemberView
+
+@{
+    ViewBag.Title = "AddMember";
+}
+
+<h2>Add Member to group.</h2>
+<h3>@ViewBag.Error</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Add Member.</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model=>model.GroupId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("UserId", "Select an User.....")
+                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>         
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
+                <input type="submit" value="AddMember" class="btn btn-primary" />                 
+            </div>
+          </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

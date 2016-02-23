@@ -17,5 +17,7 @@ namespace Democracy.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [StringLength(50, ErrorMessage = "The field {0} can contain maximun {1} and minimun {2} characters", MinimumLength = 3)]
         public string Description { get; set; }
+
+        public virtual ICollection<GroupMember> GroupMembers { get; set; }
     }
 }
