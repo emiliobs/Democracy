@@ -14,6 +14,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
+        <th>
+            Number of members
+        </th>
         <th></th>
     </tr>
 
@@ -21,6 +24,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupMembers.Count)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.GroupId  }, new { @class="btn btn-default" }) 

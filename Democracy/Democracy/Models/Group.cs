@@ -10,6 +10,7 @@ namespace Democracy.Models
     public class Group
     {
         [Key]
+        [Required(ErrorMessage = "The field {0} is required")]
         public int GroupId { get; set; }
 
         //Gets or sets the group description:
@@ -19,5 +20,7 @@ namespace Democracy.Models
         public string Description { get; set; }
 
         public virtual ICollection<GroupMember> GroupMembers { get; set; }
+
+        public virtual ICollection<VotingGroup> VotingGroups { get; set; }
     }
 }

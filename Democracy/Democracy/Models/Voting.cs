@@ -27,7 +27,7 @@ namespace Democracy.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [Display(Name = "Date Time Start")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm}",ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm tt}", ApplyFormatInEditMode = true)]
         public DateTime DateTimeStart { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -55,6 +55,9 @@ namespace Democracy.Models
 
         //Relación en el tabla lado varions con la Table Key(principal
         public virtual State State { get; set; }
+
+        public virtual ICollection<VotingGroup> VotingGroups { get; set; }
+
 
 
     }

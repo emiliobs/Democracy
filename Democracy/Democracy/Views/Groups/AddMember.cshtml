@@ -18,7 +18,7 @@
         @Html.HiddenFor(model=>model.GroupId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("UserId", "Select an User.....")
                 @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
@@ -27,7 +27,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-success" })
-                <input type="submit" value="AddMember" class="btn btn-primary" />                 
+                <input type="submit" value="Add Member" class="btn btn-primary" />                 
             </div>
           </div>
     </div>
