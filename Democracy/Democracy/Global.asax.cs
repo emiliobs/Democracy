@@ -22,8 +22,27 @@ namespace Democracy
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Cada que el proyecto corroa el mira si la base de datos obtuvo cambios:
+            //Cada que el proyecto corroa el mira si la base de datos obtuvo cambios:(para las migraciones automaticas)
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DemocracyContext,Configuration>());
+
+            this.CheckSuperUser();
+        }
+
+
+        //Método para quemar el super usuario del sistema:
+        private void CheckSuperUser()
+        {
+            var user = new User
+            {
+                Address = userView.Address,
+                FirstName = userView.FirstName,
+                Grade = userView.Grade,
+                Group = userView.Group,
+                LastName = userView.LastName,
+                Phone = userView.Phone,
+                Photo = picture == string.Empty ? string.Empty : string.Format("~/Content/Photos/{0}", picture),
+                userName = userView.userName
+            };
         }
     }
 }

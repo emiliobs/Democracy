@@ -113,7 +113,7 @@ namespace Democracy.Controllers
 
             return RedirectToAction("Index");
 
-            return View(user);
+           
         }
 
         private void createASPUser(UserView userView)
