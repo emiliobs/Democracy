@@ -1,21 +1,21 @@
-﻿@model Democracy.Models.AddMemberView
+﻿@model Democracy.Models.AddCandidateView
 
 @{
-    ViewBag.Title = "AddMember";
+    ViewBag.Title = "AddCandidate";
 }
 
-<h2>Add Member to group.</h2>
-<h3>@ViewBag.Error</h3>
+<h2>Add Cadidate to Voting.</h2>
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Add Member.</h4>
+        <h4>Add Candidate.</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model=>model.GroupId)
+        @Html.HiddenFor(model => model.VotingId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.UserId, "User", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -23,13 +23,13 @@
                 @Html.DropDownList("UserId", "Select an User.....")
                 @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
             </div>
-        </div>         
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("Back to Group", "Index", new { id = Model.GroupId }, new { @class = "btn btn-success" })
-                <input type="submit" value="Add Member" class="btn btn-primary" />                 
+                @Html.ActionLink("Back to Voting", "Index", new {id = Model.VotingId }, new { @class = "btn btn-success" })
+                <input type="submit" value="Add Candidate" class="btn btn-primary" />
             </div>
-          </div>
+        </div>
     </div>
 }
 

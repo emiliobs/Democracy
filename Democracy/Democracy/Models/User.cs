@@ -46,12 +46,10 @@ namespace Democracy.Models
           
         [DataType(DataType.ImageUrl)]
        [StringLength(200, ErrorMessage = "The field {0} can contain maximun {1} and  minimun {2} character", MinimumLength = 5)]
-        public string Photo { get; set; }
-
-
-
+        public string Photo { get; set; }   
 
         public virtual ICollection<GroupMember> GroupMembers { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 
 }
