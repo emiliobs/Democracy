@@ -13,15 +13,76 @@ using Microsoft.AspNet.Identity;
 
 namespace Democracy.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private DemocracyContext db = new DemocracyContext();
 
+        public ActionResult OnOffAdministrator(int id)
+        {
+            var user = db.Users.Find(id);
+
+            if (user != null)
+            {
+                //cuando siepre quiero buscar los usuarios en las tabla ASP.net: de roles y usuarios:
+                var userContext = new ApplicationDbContext();
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+
+                //Buscamos el role primero:
+                var userASP = userManager.FindByEmail(user.userName);
+
+                //Si es diferente de null podemos proceder con el role del ese usuario:
+                if (userASP != null)
+                {
+                    if (userManager.IsInRole(userASP.Id, "Admin"))
+                    {
+                        userManager.RemoveFromRole(userASP.Id, "Admin");
+                    }
+                    else
+                    {
+                        userManager.AddToRole(userASP.Id, "Admin");
+                    }
+                }
+
+            }     
+
+            return RedirectToAction("Index");
+        }
+
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            var userContext = new ApplicationDbContext();
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(userContext));
+            
+            var users = db.Users.ToList();
+            var usersView = new List<UserIndexView>();
+
+            //por cada usuario que hay en la coleccion users:
+            foreach (var user in users)
+            {
+                var userASP = userManager.FindByEmail(user.userName);
+
+                usersView.Add(new UserIndexView
+                {
+                    Address = user.Address,
+                    Candidates = user.Candidates,
+                    FirstName = user.FirstName,
+                    Grade = user.Grade,
+                    Group = user.Group,
+                    GroupMembers = user.GroupMembers,
+                    IsAdmin = userASP != null && userManager.IsInRole(userASP.Id, "Admin"),
+                    LastName = user.LastName,
+                    Phone = user.Phone,
+                    Photo = user.Photo,
+                    UserId = user.UserId,
+                    userName = user.userName,
+
+
+                });
+            }
+
+            return View(usersView);
         }
 
         // GET: Users/Details/5
@@ -251,7 +312,28 @@ namespace Democracy.Controllers
         {
             User user = db.Users.Find(id);
             db.Users.Remove(user);
-            db.SaveChanges();
+          
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.InnerException != null && ex.InnerException.InnerException != null && 
+                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    //Capturamos este error, ya que es causado por la violación de una relacón primary key:(llava promaria)
+                    ModelState.AddModelError(string.Empty,"The record can't be delete, because has related Records");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message); 
+                }
+
+                return View(user);
+            }
+          
             return RedirectToAction("Index");
         }
 

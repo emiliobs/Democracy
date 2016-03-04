@@ -246,6 +246,7 @@
     <Compile Include="Models\RegisterUserView.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserIndexView.cs" />
     <Compile Include="Models\UserView.cs" />
     <Compile Include="Models\Voting.cs" />
     <Compile Include="Models\VotingGroup.cs" />
