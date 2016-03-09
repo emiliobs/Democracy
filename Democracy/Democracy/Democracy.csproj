@@ -247,6 +247,7 @@
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserIndexView.cs" />
+    <Compile Include="Models\UserSettingsView.cs" />
     <Compile Include="Models\UserView.cs" />
     <Compile Include="Models\Voting.cs" />
     <Compile Include="Models\VotingGroup.cs" />
@@ -259,6 +260,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\fondo.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -293,6 +295,12 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Content\Images\democracy1.jpg" />
+    <Content Include="Content\Images\democracy2.jpg" />
+    <Content Include="Content\Images\democracy3.jpg" />
+    <Content Include="Content\Images\result.jpg" />
+    <Content Include="Content\Images\settings.jpg" />
+    <Content Include="Content\Images\vote.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -350,6 +358,7 @@
     <Content Include="Views\Groups\AddMember.cshtml" />
     <Content Include="Views\Votings\AddGroup.cshtml" />
     <Content Include="Views\Votings\AddCandidate.cshtml" />
+    <Content Include="Views\Users\MySettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

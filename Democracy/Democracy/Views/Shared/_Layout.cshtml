@@ -11,7 +11,7 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">   
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -26,10 +26,23 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("States", "Index", "States")</li>
-                    <li>@Html.ActionLink("Groups", "Index", "Groups")</li>
-                    <li>@Html.ActionLink("Votings", "Index", "Votings")</li>
-                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    @*//condicion solo para mostrar menu a usuarios admin:*@
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("States", "Index", "States")</li>
+                        <li>@Html.ActionLink("Groups", "Index", "Groups")</li>
+                        <li>@Html.ActionLink("Votings", "Index", "Votings")</li>
+                        <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    }
+
+                    @if (this.User.IsInRole("User"))
+                    {
+                        <li>@Html.ActionLink("My Setting", "MySettings", "Users")</li>
+                        <li>@Html.ActionLink("My Voting", "MyVotings", "Votings")</li>
+                        <li>@Html.ActionLink("Result", "Results", "Votings")</li>
+                        
+                    }
+                    
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

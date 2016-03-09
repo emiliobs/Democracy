@@ -1,6 +1,10 @@
 ﻿body {
+     background-image: url("../Content/Images/fondo.jpg");
+     color:white;
+     font-style:oblique;
     padding-top: 50px;
     padding-bottom: 20px;
+   
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -14,6 +18,10 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+}
+.jumbotron
+{
+    color:black;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */

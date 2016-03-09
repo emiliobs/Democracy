@@ -13,11 +13,83 @@ using Microsoft.AspNet.Identity;
 
 namespace Democracy.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   
     public class UsersController : Controller
     {
         private DemocracyContext db = new DemocracyContext();
 
+        [Authorize(Roles = "User")]
+        public ActionResult MySettings()
+        {
+
+            //Buscamos el usuarios a editar:
+            var user = db.Users.Where(u => u.userName == this.User.Identity.Name).FirstOrDefault();
+
+            //Creo el objeto(UserSettingsView) a partir de otrp objeto(User):
+            var view = new UserSettingsView
+            {
+              Address = user.Address,
+              FirstName =user.FirstName,
+              Grade = user.Grade,
+              Group = user.Group,
+              LastName = user.LastName,
+              Phone = user.Phone,
+              Photo = user.Photo,
+              UserId = user.UserId,
+              userName = user.userName,
+            };
+
+
+            return View(view);
+        }
+
+        [HttpPost]
+        public ActionResult MySettings(UserSettingsView view)
+        {
+            if (ModelState.IsValid)
+            {
+                string path = string.Empty;
+                string picture = string.Empty;
+
+                if (view.Photo != null)
+                {
+                    picture = Path.GetFileName(view.NewPhoto.FileName);
+                    path = Path.Combine(Server.MapPath("~/Content/Photos"), picture);
+                    view.NewPhoto.SaveAs(path);
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        view.NewPhoto.InputStream.CopyTo(ms);
+                        byte[] array = ms.GetBuffer();
+                    }
+                }
+
+                //find the user in DataBase:
+                var user = db.Users.Find(view.UserId);
+
+                user.Address = view.Address;
+                user.FirstName = view.FirstName;
+                user.Grade = view.Grade;
+                user.Group = view.Group;
+                user.LastName = view.LastName;
+                user.Phone = view.Phone;
+               
+
+                if (!string.IsNullOrEmpty(picture))
+                {
+                    user.Photo = string.Format("~/Content/Photos/{0}", picture);
+                }
+
+
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index","Home");
+            }
+            
+            return View (view);
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult OnOffAdministrator(int id)
         {
             var user = db.Users.Find(id);
@@ -49,6 +121,7 @@ namespace Democracy.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Users
         public ActionResult Index()
         {
@@ -85,6 +158,7 @@ namespace Democracy.Controllers
             return View(usersView);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
@@ -100,6 +174,7 @@ namespace Democracy.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Users/Create
         public ActionResult Create()
         {
@@ -209,6 +284,7 @@ namespace Democracy.Controllers
             userManager.AddToRole(userASP.Id, "User");
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -290,6 +366,7 @@ namespace Democracy.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {

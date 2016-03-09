@@ -7,15 +7,12 @@ using System.Web;
 
 namespace Democracy.Models
 {
-    //[NotMapped] evititar hacer una invocacion a la base de datos:
-
+    //Para que este modelo no vaya a Base de datos:
     [NotMapped]
-    public class UserIndexView:User
+    public class UserSettingsView : User
     {
-       
-       
-        [Display(Name = "Is Admin?")]
-        public bool IsAdmin { get; set; }
+        [Display(Name = "New Photo")]
+        public HttpPostedFile NewPhoto { get; set; }
 
         
     }

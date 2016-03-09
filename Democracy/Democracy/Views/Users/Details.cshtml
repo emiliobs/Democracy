@@ -73,7 +73,7 @@
         <dd>
             @if (!string.IsNullOrEmpty(Model.Photo))
             {
-            <img src="@Url.Content(Model.Photo)" alt="Image" style="width:200px; height:200px; max-width:100%; height:auto" />
+            <img src="@Url.Content(Model.Photo)" alt="Image" style="width:200px; height:200px; max-width:100%; max-height:100%" />
             }
             @*@Html.DisplayFor(model => model.Photo)*@
         </dd>
