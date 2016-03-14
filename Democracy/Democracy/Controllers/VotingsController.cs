@@ -10,11 +10,106 @@ using Democracy.Models;
 
 namespace Democracy.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   
     public class VotingsController : Controller
     {
         private DemocracyContext db = new DemocracyContext();
 
+        [Authorize(Roles = "User")]
+        public ActionResult MyVotings()
+        {
+            //Buscar Usuario logiado:
+            var user = db.Users.Where(u => u.userName == this.User.Identity.Name).FirstOrDefault();
+
+            //VAlidar si suario existe en la tabla users:
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty,"There an error with the current user. call the support.");
+
+                return View();
+            }
+
+            //Get event votings for the correct time:
+            var state = this.GetState("Open");
+
+            //Aqui traigo todas la vtaciones open(abiertas)
+            var votings = db.Votings.Where(v => v.StateId == state.StateId && v.DateTimeStart <= DateTime.Now && 
+                                               v.DateTimeEnd >= DateTime.Now).
+                                               Include(v => v.Candidates).
+                                               Include(v => v.VotingGroups).
+                                               Include(v => v.State).ToList();
+
+            //Discart events in the wich the user already vote:
+            for (int i = 0; i < votings.Count; i++)
+            {
+                int userId = user.UserId;
+                int votingId = votings[i].VotingId;
+
+                var votingDetail = db.votingDetail.Where(vd => vd.VotingId == votingId && vd.UserId == userId).FirstOrDefault();
+
+                //si es diferente de null el susuario ya voto: entonces lo elimino de la vista:
+                if (votingDetail != null)
+                {
+                    votings.RemoveAt(i);
+                }
+            }
+
+            //Discart events by group in wich the user are not included:
+            for (int i = 0; i < votings.Count; i++)
+            {
+                if (!votings[i].IsForAllUsers)
+                {
+                    bool userBelongsToGroup = false;
+
+                    foreach (var votinGroup in votings[i].VotingGroups)
+                    {
+                        var userGroup = votinGroup.Group.GroupMembers.Where(gm => gm.UserId == user.UserId).FirstOrDefault();
+
+                        if (userGroup != null)
+                        {
+                            userBelongsToGroup = true;
+                            break;
+                        }
+                    }
+
+                    if (!userBelongsToGroup)//si el usuario no pertence al grupo, lo borro:
+                    {
+                        votings.RemoveAt(i);
+                    }
+
+                }
+
+                
+
+            }
+
+            return View(votings); 
+        }
+
+        private State GetState(string stateName)
+        {
+            //buscar en la tabla estado este (open)abierto:
+            var state = db.States.Where(s => s.Description == stateName).FirstOrDefault();
+
+            //valido si el estado existe:
+            if (state == null)
+            {
+                //creo el estado open, y me aseguro que siempre lo este:
+                state = new State
+                {
+                    Description = stateName,
+                };
+
+            db.States.Add(state);
+            db.SaveChanges();
+            }
+
+            return state;
+
+        }
+
+        
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteGroup(int id)
         {
             //bus el id o clave promaria:
@@ -28,6 +123,7 @@ namespace Democracy.Controllers
             return RedirectToAction(string.Format("Details/{0}", votingGroup.VotingId));
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteCandidate(int id)
         {
             //bus el id o clave promaria:
@@ -43,6 +139,7 @@ namespace Democracy.Controllers
             return RedirectToAction(string.Format("Details/{0}", candidate.VotingId));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult AddCandidate(int id)
         {
@@ -92,6 +189,7 @@ namespace Democracy.Controllers
             return View(view);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]         
         public ActionResult AddGroup(int id)
         {
@@ -147,6 +245,8 @@ namespace Democracy.Controllers
         }
 
         // GET: Votings
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var votings = db.Votings.Include(v => v.State);
@@ -188,6 +288,7 @@ namespace Democracy.Controllers
             return View(view);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Votings/Create
         public ActionResult Create()
         {
@@ -236,6 +337,7 @@ namespace Democracy.Controllers
         }
 
         // GET: Votings/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -300,6 +402,7 @@ namespace Democracy.Controllers
         }
 
         // GET: Votings/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

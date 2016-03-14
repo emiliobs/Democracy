@@ -32,5 +32,7 @@ namespace Democracy.Models
         public DbSet<VotingGroup> VotingGroups { get; set; }  
         public DbSet<Candidate> Candidates { get; set; }
 
+        public DbSet<votingDetail> votingDetail { get; set; }
+
     }
 }                                    

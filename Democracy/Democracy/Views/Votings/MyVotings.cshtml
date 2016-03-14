@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Democracy.Models.Voting>
+
+@{
+    ViewBag.Title = "My Voting";
+}
+
+<h2>My Voting</h2>     
+
+<table class="table">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTimeStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTimeEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsForAllUsers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsEnabledBlankVote)
+        </th>
+        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTimeStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTimeEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsForAllUsers)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsEnabledBlankVote)
+        </td>
+      
+        <td>
+            @Html.ActionLink("Vote", "Vote", new { id = item.VotingId }, new { @class = "btn btn-primary"}) 
+          
+        </td>
+    </tr>
+    }
+
+</table>

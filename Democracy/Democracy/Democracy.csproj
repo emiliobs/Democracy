@@ -250,6 +250,7 @@
     <Compile Include="Models\UserSettingsView.cs" />
     <Compile Include="Models\UserView.cs" />
     <Compile Include="Models\Voting.cs" />
+    <Compile Include="Models\votingDetail.cs" />
     <Compile Include="Models\VotingGroup.cs" />
     <Compile Include="Models\VotingView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -359,6 +360,7 @@
     <Content Include="Views\Votings\AddGroup.cshtml" />
     <Content Include="Views\Votings\AddCandidate.cshtml" />
     <Content Include="Views\Users\MySettings.cshtml" />
+    <Content Include="Views\Votings\MyVotings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

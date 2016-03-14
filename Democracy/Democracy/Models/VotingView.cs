@@ -33,7 +33,7 @@ namespace Democracy.Models
         [DataType(DataType.Time)]
         [Required(ErrorMessage = "The field {0} is required")]
         [Display(Name = "Time Start")]
-        [DisplayFormat(DataFormatString = "{hh:mm tt}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime TimeStart { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
@@ -45,7 +45,7 @@ namespace Democracy.Models
         [DataType(DataType.Time)]
         [Required(ErrorMessage = "The field {0} is required")]
         [Display(Name = "Time End")]
-        [DisplayFormat(DataFormatString = "{hh:mm tt}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime TimeEnd { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
