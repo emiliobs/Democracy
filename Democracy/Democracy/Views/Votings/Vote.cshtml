@@ -1,0 +1,126 @@
+﻿@model Democracy.Models.VotingVoteView
+
+@{
+    ViewBag.Title = "Vote";
+}
+
+<h2>Vote</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            <h4>Voting</h4>
+            <hr />
+           
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.State.Description)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    <h2> @Html.DisplayFor(model => model.Description) </h2>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Remarks)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateTimeStart)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DateTimeStart)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateTimeEnd)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DateTimeEnd)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsForAllUsers)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.IsForAllUsers)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsEnabledBlankVote)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.IsEnabledBlankVote)
+                </dd>                  
+
+            </dl>
+           
+                @Html.ActionLink("Back to My Votings", "MyVotings", new { }, new { @class = "btn btn-success" })
+            
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        <h4>Candidates.</h4>
+
+        @*Pregunto si hay candidatos:*@
+        @if (Model.MyCandidates.Count > 0)
+            {
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MyCandidates[0].User.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MyCandidates[0].User.Photo)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @for (int i = 0; i < Model.MyCandidates.Count; i++)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MyCandidates[i].User.FullName)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(Model.MyCandidates[i].User.Photo))
+                        {
+                        <img src="@Url.Content(Model.MyCandidates[i].User.Photo)" alt="Image" style="width:200px; height:200px; max-width:100%; height:auto" />
+                        }
+
+                    </td>
+                    <td>
+                        @Html.ActionLink("Vote", "VoteCandidate",
+                   new
+                   {
+                       candidateId = Model.MyCandidates[i].CandidateId,//candidato a votar
+                       votingId = Model.VotingId//usuario votador
+                   },
+                         new { @class = "btn btn-primary", onClick = "return confirm('¿Are you sure to Vote for this Candidate.?')" })
+                    </td>
+
+
+                </tr>
+                }
+
+            </table>
+        }
+        else
+        {
+        <h5>Not Cadidate added yet.</h5>
+        }
+
+    </div>
+</div>

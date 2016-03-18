@@ -15,6 +15,29 @@ namespace Democracy.Controllers
     {
         private DemocracyContext db = new DemocracyContext();
 
+        [Authorize(Roles ="User")]
+        ////Este actioResul Vote: lo tengo que generar por que no puedo tomar los datos de un Icollection en el modelo, 
+        //entonces debo crear un modelovista para generarlo como un alista(list())
+        public ActionResult Vote(int votingId)
+        {
+            //busca el votingId del votante que viene de la vista:
+            var voting = db.Votings.Find(votingId);
+            var view = new VotingVoteView
+            {
+                DateTimeEnd = voting.DateTimeEnd,
+                DateTimeStart = voting.DateTimeStart,
+                Description = voting.Description,
+                IsEnabledBlankVote = voting.IsEnabledBlankVote,
+                IsForAllUsers = voting.IsForAllUsers,
+                MyCandidates = voting.Candidates.ToList(),
+                Remarks = voting.Remarks,
+                VotingId = voting.VotingId,
+                 
+            };
+            
+            return View(view);
+        }
+
         [Authorize(Roles = "User")]
         public ActionResult MyVotings()
         {
